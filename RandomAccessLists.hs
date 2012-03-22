@@ -54,6 +54,10 @@ data Tree a = Leaf a | Node a (Tree a) (Tree a) deriving Show
 newtype SkewRandomAccessList a = SK[(Int, Tree a)]
 
 instance RandomAccessList SkewRandomAccessList where
+  empty = SK []
+  isEmpty (SK xs) = null xs
   cons x (SK ((i,xs):(j,ys):ts))
       | i==j     = SK((1+i+j, Node x xs ys):ts)
   cons x (SK ts) = SK((1, Leaf X):ts)
+  head (SK x:xs) = snd x
+  tail (SK x:xs) = xs
